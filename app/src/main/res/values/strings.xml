@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">MoviezApp</string>
+    <string name="title_activity_settings">Settings</string>
+
+
+    <!-- APIs URLs -->
+
+    <string name="url_main">http://api.themoviedb.org/3/movie/</string>
+    <string name="api_key">api_key=589274dc0728536d219800f8895e32f3</string>
+    <string name="url_image">http://image.tmdb.org/t/p/w185/</string>
+
+    <string name="url_videos">/videos?</string>
+    <string name="url_video">http://youtu.be/</string>
+
+    <string name="url_reviews">/reviews?</string>
+
+    <string name="rate">Rating: %1$</string>
+    <string name="release">Relese Date: %1$</string>
+    <string name="duration">Duration: %1$ minute</string>
+
+
+    <!-- General settings -->
+
+    <string name="action_settings">Settings</string>
+    <string name="pref_sort_movies">Sort Movies</string>
+    <string name="pref_sortType">Sort By</string>
+    <string name="sortType">sorting</string>
+    <string name="markFavorite">Mark as Favorite</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_value">top_rated?</string>
+    <string name="trailer">Trailer $1</string>
+    <string name="review">Review $1</string>
+    <string name="favorite">Favorites</string>
+    <string name="share">Share</string>
+    <string name="no_favs">You Haven\'t choose any favorite movie yet</string>
+</resources>

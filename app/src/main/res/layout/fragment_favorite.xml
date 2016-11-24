@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.mymovies.launchpad.moviesapp.fragments.FavoriteFragment">
+
+
+    <TextView
+        android:id="@+id/no_fav_txt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_favs"
+        android:textColor="@color/colorPrimary"
+        android:visibility="gone" />
+
+    <GridView
+        android:id="@+id/fav_movie_grid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:choiceMode="singleChoice"
+        android:columnWidth="200dp"
+        android:gravity="center"
+        android:horizontalSpacing="0dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="0dp" />
+</FrameLayout>
