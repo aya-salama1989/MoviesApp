@@ -63,7 +63,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
         return v;
     }
 
-    //TODO: add share Functionality
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.movie_details, menu);
@@ -93,7 +92,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
         mReviews = new Reviews();
 
         movieTitle = mMovie.getTitle();
-        movieImg = mMovie.getPoster_path();
+        movieImg = getResources().getString(R.string.url_image) + mMovie.getPoster_path();
         releaseDate = mMovie.getRelease_date();
         movieRating = mMovie.getVote_average();
         movieOverView = mMovie.getOverview();
@@ -106,6 +105,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
     }
 
     private void initViews() {
+        Logging.log("Movie image: " + movieImg);
         // setting movie poster
         movieImgVue = (ImageView) v.findViewById(R.id.movieImg);
         Picasso.with(getActivity()).load(movieImg).into(movieImgVue);
@@ -153,7 +153,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_fav:
-                mMovie.setPoster_path(movieImg.substring(movieImg.lastIndexOf("/"), movieImg.length()));
+                String imgPath = movieImg.substring(movieImg.lastIndexOf("/"), movieImg.length());
+                mMovie.setPoster_path(imgPath);
                 getDataBaseInstance(getActivity()).insertMovie(mMovie);
                 btnAddToFavorite.setText("Added to favourite");
                 btnAddToFavorite.setOnClickListener(null);

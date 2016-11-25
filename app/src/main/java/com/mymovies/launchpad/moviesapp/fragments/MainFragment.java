@@ -42,7 +42,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         setData();
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
             mMoviePosition = savedInstanceState.getInt(SELECTED_KEY);
-            Logging.log("Saved position: " + mMoviePosition);
         }
         initViews();
         return v;
@@ -60,12 +59,11 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String imgPath = getResources().getString(R.string.url_image) + moviesList.get(position).getPoster_path();
                 movie = new Movie();
                 movie.setId(moviesList.get(position).getId());
                 movie.setTitle(moviesList.get(position).getTitle());
                 movie.setVote_average(moviesList.get(position).getVote_average());
-                movie.setPoster_path(imgPath);
+                movie.setPoster_path(moviesList.get(position).getPoster_path());
                 movie.setOverview(moviesList.get(position).getOverview());
                 movie.setRelease_date(moviesList.get(position).getRelease_date());
                 mMoviePosition = position;
@@ -97,7 +95,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     @Override
     public void onConnectionFailed() {
-        Logging.Toast(getActivity(), "Connection failed");
+        Logging.Toast(getActivity(), "Seems like you're having a problem connecting to the internet");
     }
 
     @Override
@@ -105,11 +103,10 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         if (mtwoPanel & mMoviePosition < 0) {
             mMoviePosition = 0;
             movie = new Movie();
-            String imgPath = getResources().getString(R.string.url_image) + movies.get(mMoviePosition).getPoster_path();
             movie.setId(movies.get(mMoviePosition).getId());
             movie.setTitle(movies.get(mMoviePosition).getTitle());
             movie.setVote_average(movies.get(mMoviePosition).getVote_average());
-            movie.setPoster_path(imgPath);
+            movie.setPoster_path(movies.get(mMoviePosition).getPoster_path());
             movie.setOverview(movies.get(mMoviePosition).getOverview());
             movie.setRelease_date(movies.get(mMoviePosition).getRelease_date());
             if (fragmentDataInterchange != null) {

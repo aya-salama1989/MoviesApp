@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Frag
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
             case R.id.action_favorites:
-
                 Intent intent = new Intent(this, FavoritesActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

@@ -30,6 +30,7 @@ public class BaseDataFetcher {
         public void onErrorResponse(VolleyError volleyError) {
           //  TODO: put request url and set remove in error listener
             Logging.log("onErrorResponse :  " + volleyError.toString());
+            mListener.onConnectionFailed();
         }
     };
 

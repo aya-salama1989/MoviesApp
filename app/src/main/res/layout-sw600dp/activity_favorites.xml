@@ -3,15 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    tools:context="com.mymovies.launchpad.moviesapp.activities.MainActivity">
+    tools:context="com.mymovies.launchpad.moviesapp.activities.FavoritesActivity">
 
 
     <fragment
         android:id="@+id/fav_fragment_holder"
-        android:name="com.mymovies.launchpad.moviesapp.fragments.MainFragment"
+        android:name="com.mymovies.launchpad.moviesapp.fragments.FavoriteFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
