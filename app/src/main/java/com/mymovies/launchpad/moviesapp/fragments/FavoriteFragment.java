@@ -14,6 +14,7 @@ import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.activities.FavoritesActivity;
 import com.mymovies.launchpad.moviesapp.adapters.MovieGridAdapter;
 import com.mymovies.launchpad.moviesapp.models.Movie;
+import com.mymovies.launchpad.moviesapp.models.MoviesList;
 
 import java.util.ArrayList;
 
@@ -25,7 +26,7 @@ public class FavoriteFragment extends Fragment {
     private GridView gridView;
     private MovieGridAdapter adapter;
     private View v;
-    private ArrayList<Movie> movies;
+    private MoviesList movies;
     private int mMoviePosition = gridView.INVALID_POSITION;
     private MainFragment.FragmentDataInterchange fragmentDataInterchange;
     private Movie movie;
@@ -55,7 +56,6 @@ public class FavoriteFragment extends Fragment {
         outState.putInt("itemPosition", mMoviePosition);
     }
 
-    //TODO: position of selected item
     private void getData() {
         movies = getDataBaseInstance(getActivity()).getAllMovies();
 

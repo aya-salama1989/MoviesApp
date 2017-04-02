@@ -42,7 +42,6 @@ public class TestDB extends AndroidTestCase {
 
     }
 
-    //TODO: create tables
 
     public void testDBCreation() throws Throwable {
         final HashSet<String> tableNameHashSet = new HashSet<String>();
@@ -99,7 +98,6 @@ public class TestDB extends AndroidTestCase {
 
     }
 
-    //TODO: inset into tables
 
     @Override
     protected void tearDown() throws Exception {

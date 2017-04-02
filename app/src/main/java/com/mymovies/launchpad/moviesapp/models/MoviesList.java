@@ -14,9 +14,7 @@ import java.util.ArrayList;
 
 public class MoviesList extends ArrayList<Movie> {
 
-public MoviesList(){
 
-}
     public MoviesList(JSONArray jArr) {
 
         for (int i = 0; i < jArr.length(); i++) {
@@ -26,5 +24,9 @@ public MoviesList(){
                 e.printStackTrace();
             }
         }
+    }
+
+    public MoviesList() {
+
     }
 }

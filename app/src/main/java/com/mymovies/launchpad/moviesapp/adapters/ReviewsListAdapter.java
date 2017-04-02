@@ -24,7 +24,7 @@ public class ReviewsListAdapter extends RecyclerView.Adapter<ReviewsListAdapter.
     private Reviews reviews;
     private Context context;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title;
 
         public MyViewHolder(View view) {

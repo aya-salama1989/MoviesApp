@@ -28,7 +28,6 @@ public class BaseDataFetcher {
     public Response.ErrorListener errorListener = new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError volleyError) {
-          //  TODO: put request url and set remove in error listener
             Logging.log("onErrorResponse :  " + volleyError.toString());
             mListener.onConnectionFailed();
         }

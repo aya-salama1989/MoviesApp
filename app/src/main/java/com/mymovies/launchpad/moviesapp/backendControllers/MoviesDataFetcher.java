@@ -11,12 +11,11 @@ import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MoviesDataFetcher extends BaseDataFetcher {
-
-
     private MoviesList movies;
 
     public MoviesDataFetcher(Context context, BaseDataResponseListener mListenr) {
@@ -35,7 +34,9 @@ public class MoviesDataFetcher extends BaseDataFetcher {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            movies = new MoviesList(response.getJSONArray("results"));
+                            Logging.log(response.toString());
+                            JSONArray jsonArray = response.getJSONArray("results");
+                            movies = new MoviesList(jsonArray);
 
                             ((DataFetcherListener) mListener).onConnectionDone(movies);
 

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.models.Movie;
+import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class MovieGridAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context context;
-    private ArrayList<Movie> movies;
+    private MoviesList movies;
 
-    public MovieGridAdapter(Context context, ArrayList<Movie> movies) {
+    public MovieGridAdapter(Context context, MoviesList movies) {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
         this.movies = movies;
