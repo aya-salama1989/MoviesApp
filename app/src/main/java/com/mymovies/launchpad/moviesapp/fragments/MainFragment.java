@@ -141,7 +141,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         movie.setOverview(moviesList.get(itemPosition).getOverview());
         movie.setRelease_date(moviesList.get(itemPosition).getRelease_date());
         fragmentDataInterchange.onItemSelected(movie);
-        Toast.makeText(getActivity(), "itemPosition: " + itemPosition, Toast.LENGTH_LONG).show();
     }
 
     public interface FragmentDataInterchange {
