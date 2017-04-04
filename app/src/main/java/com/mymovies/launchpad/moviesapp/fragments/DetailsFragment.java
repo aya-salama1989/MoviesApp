@@ -26,18 +26,32 @@ import com.mymovies.launchpad.moviesapp.models.Videos;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static com.mymovies.launchpad.moviesapp.database.MoviesDBHelper.getDataBaseInstance;
 
 
 public class DetailsFragment extends Fragment implements View.OnClickListener, VideosDataFetcher.VideosDataFetcherListener, ReviewsDataFetcher.ReviewsFetcherListener {
+    @BindView(R.id.movieTitle)
+    TextView titleTxt;
+    @BindView(R.id.releaseDate)
+    TextView releaseDateTxt;
+    @BindView(R.id.movieRating)
+    TextView ratingTxt;
+    @BindView(R.id.movieOverView)
+    TextView overviewTxt;
+    @BindView(R.id.movieImg)
+    ImageView movieImgVue;
+    @BindView(R.id.add_fav)
+    Button btnAddToFavorite;
     private String movieTitle, movieImg, releaseDate, movieRating, movieOverView;
-    private TextView titleTxt, releaseDateTxt, ratingTxt, overviewTxt;
-    private ImageView movieImgVue;
     private View v;
-    private Button btnAddToFavorite;
     private Movie mMovie;
-
-    private RecyclerView videosListView, reviewsListView;
+    @BindView(R.id.list_trailers)
+    RecyclerView videosListView;
+    @BindView(R.id.list_reviews)
+    RecyclerView reviewsListView;
 
     private VideosListAdapter videosListAdapter;
     private Videos mVideos;
@@ -50,7 +64,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_details, container, false);
-
+        ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
 
         if (getArguments() != null) {
@@ -105,44 +119,36 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
     }
 
     private void initViews() {
-        Logging.log("Movie image: " + movieImg);
         // setting movie poster
-        movieImgVue = (ImageView) v.findViewById(R.id.movieImg);
         Picasso.with(getActivity()).load(movieImg).into(movieImgVue);
 
         // setting movie title
-        titleTxt = (TextView) v.findViewById(R.id.movieTitle);
+//        titleTxt = (TextView) v.findViewById(R.id.movieTitle);
         titleTxt.setText(movieTitle);
 
         // setting movie release Date
-        releaseDateTxt = (TextView) v.findViewById(R.id.releaseDate);
-        releaseDateTxt.setText("Release Date: " + releaseDate);
+        releaseDateTxt.setText(getString(R.string.release_Date, releaseDate));
 
         // setting movie Rating
-        ratingTxt = (TextView) v.findViewById(R.id.movieRating);
-        ratingTxt.setText("Rating: " + movieRating);
+        ratingTxt.setText(getString(R.string.rating,movieRating));
 
         // setting movie over View
-        overviewTxt = (TextView) v.findViewById(R.id.movieOverView);
         overviewTxt.setText(movieOverView);
 
         // Set and Custom Add to Favorite Button
-        btnAddToFavorite = (Button) v.findViewById(R.id.add_fav);
         btnAddToFavorite.setOnClickListener(this);
         if (getDataBaseInstance(getActivity()).findMovie(String.valueOf(mMovie.getId()))) {
-            btnAddToFavorite.setText("Marked Favorite");
+            btnAddToFavorite.setText(getString(R.string.marked_Favorite));
         } else {
-            btnAddToFavorite.setText("Add to Favorite");
+            btnAddToFavorite.setText(getString(R.string.add_to_fav));
         }
 
         // Initiate and populate videos recyclerView
-        videosListView = (RecyclerView) v.findViewById(R.id.list_trailers);
         videosListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         videosListAdapter = new VideosListAdapter(mVideos, getActivity());
         videosListView.setAdapter(videosListAdapter);
 
         // Initiate and populate reviews recyclerView
-        reviewsListView = (RecyclerView) v.findViewById(R.id.list_reviews);
         reviewsListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ReviewsListAdapter(mReviews, getActivity());
         reviewsListView.setAdapter(adapter);
@@ -156,7 +162,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
                 String imgPath = movieImg.substring(movieImg.lastIndexOf("/"), movieImg.length());
                 mMovie.setPoster_path(imgPath);
                 getDataBaseInstance(getActivity()).insertMovie(mMovie);
-                btnAddToFavorite.setText("Added to favourite");
+                btnAddToFavorite.setText(getString(R.string.added_resources));
                 btnAddToFavorite.setOnClickListener(null);
                 break;
             default:
@@ -177,6 +183,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
 
     @Override
     public void onConnectionFailed() {
-        Logging.Toast(getActivity(), "Seems like you're having a problem connecting to the internet");
+        Logging.Toast(getActivity(), getString(R.string.no_internet));
     }
 }

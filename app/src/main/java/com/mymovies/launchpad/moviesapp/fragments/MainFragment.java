@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.mymovies.launchpad.moviesapp.R;
@@ -34,6 +33,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     private View v;
     private Movie movie;
+    private String searchQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,7 +67,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     }
 
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
 //        if (mMoviePosition != ListView.INVALID_POSITION) {
@@ -79,19 +78,30 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private void setData() {
         PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String searchQuery = sharedPreferences.getString(getString(R.string.sortType), null);
-        moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
-        moviesDataFetcher.search(searchQuery);
+        searchQuery = sharedPreferences.getString(getString(R.string.sortType), null);
+
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+
+        if (moviesList.isEmpty()) {
+            moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
+            moviesDataFetcher.search(searchQuery);
+        } else {
+            // nothing
+        }
+    }
+
+
+    @Override
     public void onConnectionFailed() {
-        Logging.Toast(getActivity(), "Seems like you're having a problem connecting to the internet");
+        Logging.Toast(getActivity(), getString(R.string.no_internet));
     }
 
     @Override
     public void onConnectionDone(MoviesList movies) {
-        Logging.log("movies.size(): " + movies.size());
         moviesList.addAll(movies);
         moviesGridRecycler.notifyDataSetChanged();
 

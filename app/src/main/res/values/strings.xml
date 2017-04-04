@@ -35,4 +35,10 @@
     <string name="favorite">Favorites</string>
     <string name="share">Share</string>
     <string name="no_favs">You Haven\'t choose any favorite movie yet</string>
+    <string name="no_internet">There is no Internet Connection</string>
+    <string name="release_Date">Release Data: %1$s</string>
+    <string name="rating">Rating: %1$s</string>
+    <string name="marked_Favorite">Marked Favorite</string>
+    <string name="add_to_fav">Add to Favorite</string>
+    <string name="added_resources">Added to favourite</string>
 </resources>
