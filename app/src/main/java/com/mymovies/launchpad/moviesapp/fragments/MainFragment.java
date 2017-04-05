@@ -40,8 +40,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_main, container, false);
         moviesList = new MoviesList();
-
-        setData();
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
 //            mMoviePosition = savedInstanceState.getInt(SELECTED_KEY);
         }
@@ -79,16 +77,15 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         searchQuery = sharedPreferences.getString(getString(R.string.sortType), null);
-
+        moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
+        moviesDataFetcher.search(searchQuery);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         if (moviesList.isEmpty()) {
-            moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
-            moviesDataFetcher.search(searchQuery);
+            setData();
         } else {
             // nothing
         }
