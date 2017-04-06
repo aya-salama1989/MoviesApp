@@ -76,6 +76,15 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private void setData() {
         PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.OnSharedPreferenceChangeListener listener
+                = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
+                // Implementation
+            }
+        };
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+
         searchQuery = sharedPreferences.getString(getString(R.string.sortType), null);
         moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
         moviesDataFetcher.search(searchQuery);
