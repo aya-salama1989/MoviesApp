@@ -122,7 +122,13 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         if(moviesList.isEmpty()){
             moviesList.addAll(movies);
             moviesGridRecycler.notifyDataSetChanged();
+            moviesRecycler.setAdapter(moviesGridRecycler);
         }
+
+//        if(moviesList.isEmpty()){
+//            moviesList.addAll(movies);
+//            moviesGridRecycler.notifyDataSetChanged();
+//           }
 
 
 
