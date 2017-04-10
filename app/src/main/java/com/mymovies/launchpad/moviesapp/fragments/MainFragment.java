@@ -81,12 +81,11 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private void getData() {
         moviesList = new MoviesList();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+
         searchQuery = sharedPreferences.getString(getString(R.string.sortType),
                 getString(R.string.default_sort_settings));
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
-        Logging.log("getData: " + getString(R.string.sortType));
     }
 
     private void setData(String searchQuery) {
@@ -97,7 +96,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     @Override
     public void onStart() {
         super.onStart();
-        if (moviesList.isEmpty()||isPreferenceChanged) {
+        if (moviesList.isEmpty() || isPreferenceChanged) {
             setData(searchQuery);
         } else {
             // nothing
@@ -117,8 +116,14 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     @Override
     public void onConnectionDone(MoviesList movies) {
-        moviesList.addAll(movies);
-        moviesGridRecycler.notifyDataSetChanged();
+        if (isPreferenceChanged) {
+            moviesList.clear();
+        }
+        if(moviesList.isEmpty()){
+            moviesList.addAll(movies);
+            moviesGridRecycler.notifyDataSetChanged();
+        }
+
 
 
 //        if (mtwoPanel & mMoviePosition < 0) {
@@ -170,6 +175,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         // TODO: how am i supposed to get preferences here and check if they are changed
+
         return false;
     }
 
