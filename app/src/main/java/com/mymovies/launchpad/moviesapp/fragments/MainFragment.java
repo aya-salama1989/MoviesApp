@@ -30,6 +30,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private MoviesList moviesList;
     private SharedPreferences sharedPreferences;
     private FragmentDataInterchange fragmentDataInterchange;
+    private boolean isPreferenceChanged;
 
 
     private View v;
@@ -96,8 +97,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     @Override
     public void onStart() {
         super.onStart();
-        if (moviesList.isEmpty()) {
-            //TODO: still not upadating onPreferenceChangeListener :(
+        if (moviesList.isEmpty()||isPreferenceChanged) {
             setData(searchQuery);
         } else {
             // nothing
@@ -161,10 +161,9 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (sharedPreferences.contains(getString(R.string.sortType))) {
-            Logging.log("onSharedPreferenceChanged: " + getString(R.string.sortType));
             searchQuery = sharedPreferences.getString(getString(R.string.sortType),
                     getString(R.string.default_sort_settings));
-            setData(searchQuery);
+            isPreferenceChanged = true;
         }
     }
 
