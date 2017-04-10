@@ -180,7 +180,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        // TODO: how am i supposed to get preferences here and check if they are changed
 
         return false;
     }
