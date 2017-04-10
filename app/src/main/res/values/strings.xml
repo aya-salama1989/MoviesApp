@@ -27,6 +27,8 @@
     <string name="sortType">sorting</string>
     <string name="markFavorite">Mark as Favorite</string>
 
+    <string name="default_sort_settings">top_rated?</string>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_value">top_rated?</string>

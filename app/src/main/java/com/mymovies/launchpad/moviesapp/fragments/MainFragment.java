@@ -4,12 +4,12 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.preference.Preference;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.adapters.MoviesGridRecycler;
@@ -19,7 +19,8 @@ import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
 
-public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetcherListener, MoviesGridRecycler.OnMovieItemClickListener {
+public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetcherListener,
+        MoviesGridRecycler.OnMovieItemClickListener, SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
 
     private static final String SELECTED_KEY = "selected_position";
     private MoviesDataFetcher moviesDataFetcher;
@@ -39,10 +40,13 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_main, container, false);
-        moviesList = new MoviesList();
+        getData();
+
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
 //            mMoviePosition = savedInstanceState.getInt(SELECTED_KEY);
         }
+
+
         initViews();
         return v;
     }
@@ -73,19 +77,18 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         super.onSaveInstanceState(outState);
     }
 
-    private void setData() {
-        PreferenceManager.setDefaultValues(getActivity(), R.xml.settings, false);
+    private void getData() {
+        moviesList = new MoviesList();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.OnSharedPreferenceChangeListener listener
-                = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                // Implementation
-            }
-        };
+        searchQuery = sharedPreferences.getString(getString(R.string.sortType),
+                getString(R.string.default_sort_settings));
 
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
 
-        searchQuery = sharedPreferences.getString(getString(R.string.sortType), null);
+        Logging.log("getData: " + getString(R.string.sortType));
+    }
+
+    private void setData(String searchQuery) {
         moviesDataFetcher = new MoviesDataFetcher(getActivity(), this);
         moviesDataFetcher.search(searchQuery);
     }
@@ -94,12 +97,18 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     public void onStart() {
         super.onStart();
         if (moviesList.isEmpty()) {
-            setData();
+            //TODO: still not upadating onPreferenceChangeListener :(
+            setData(searchQuery);
         } else {
             // nothing
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+    }
 
     @Override
     public void onConnectionFailed() {
@@ -147,6 +156,22 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         movie.setOverview(moviesList.get(itemPosition).getOverview());
         movie.setRelease_date(moviesList.get(itemPosition).getRelease_date());
         fragmentDataInterchange.onItemSelected(movie);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (sharedPreferences.contains(getString(R.string.sortType))) {
+            Logging.log("onSharedPreferenceChanged: " + getString(R.string.sortType));
+            searchQuery = sharedPreferences.getString(getString(R.string.sortType),
+                    getString(R.string.default_sort_settings));
+            setData(searchQuery);
+        }
+    }
+
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        // TODO: how am i supposed to get preferences here and check if they are changed
+        return false;
     }
 
     public interface FragmentDataInterchange {
