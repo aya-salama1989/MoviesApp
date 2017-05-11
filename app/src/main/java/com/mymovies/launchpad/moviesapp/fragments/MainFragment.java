@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.adapters.MoviesGridRecycler;
@@ -18,9 +19,13 @@ import com.mymovies.launchpad.moviesapp.models.Movie;
 import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
+import static com.mymovies.launchpad.moviesapp.activities.MainActivity.mtwoPanel;
+
 
 public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetcherListener,
-        MoviesGridRecycler.OnMovieItemClickListener, SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
+        MoviesGridRecycler.OnMovieItemClickListener,
+        SharedPreferences.OnSharedPreferenceChangeListener,
+        Preference.OnPreferenceChangeListener {
 
     private static final String SELECTED_KEY = "selected_position";
     private MoviesDataFetcher moviesDataFetcher;
@@ -32,22 +37,20 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private FragmentDataInterchange fragmentDataInterchange;
     private boolean isPreferenceChanged;
 
-
+    private GridLayoutManager gridLayoutManager;
     private View v;
     private Movie movie;
     private String searchQuery;
+    private int mMoviePosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_main, container, false);
         getData();
-
         if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)) {
-//            mMoviePosition = savedInstanceState.getInt(SELECTED_KEY);
+            mMoviePosition = savedInstanceState.getInt(SELECTED_KEY);
         }
-
-
         initViews();
         return v;
     }
@@ -56,25 +59,22 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         this.fragmentDataInterchange = fragmentDataInterchange;
     }
 
-
     private void initViews() {
         moviesGridRecycler = new MoviesGridRecycler(moviesList, this);
         moviesRecycler = (RecyclerView) v.findViewById(R.id.rv_movies);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         moviesRecycler.setLayoutManager(gridLayoutManager);
         moviesRecycler.setHasFixedSize(true);
         moviesRecycler.setAdapter(moviesGridRecycler);
-//
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-//        if (mMoviePosition != ListView.INVALID_POSITION) {
-//            outState.putInt(SELECTED_KEY, mMoviePosition);
-//        }
+        if (mMoviePosition != ListView.INVALID_POSITION) {
+            outState.putInt(SELECTED_KEY, mMoviePosition);
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -82,10 +82,8 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         moviesList = new MoviesList();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
         searchQuery = sharedPreferences.getString(getString(R.string.sortType),
                 getString(R.string.default_sort_settings));
-
     }
 
     private void setData(String searchQuery) {
@@ -103,6 +101,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         }
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -119,46 +118,41 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
         if (isPreferenceChanged) {
             moviesList.clear();
         }
-        if(moviesList.isEmpty()){
+        if (moviesList.isEmpty()) {
             moviesList.addAll(movies);
             moviesGridRecycler.notifyDataSetChanged();
             moviesRecycler.setAdapter(moviesGridRecycler);
         }
 
-//        if(moviesList.isEmpty()){
-//            moviesList.addAll(movies);
-//            moviesGridRecycler.notifyDataSetChanged();
-//           }
 
+        if (mtwoPanel & mMoviePosition < 0) {
+            moviesRecycler.findViewHolderForAdapterPosition(0).itemView.performClick();
+            movie = new Movie();
+            movie.setId(movies.get(mMoviePosition).getId());
+            movie.setTitle(movies.get(mMoviePosition).getTitle());
+            movie.setVote_average(movies.get(mMoviePosition).getVote_average());
+            movie.setPoster_path(movies.get(mMoviePosition).getPoster_path());
+            movie.setOverview(movies.get(mMoviePosition).getOverview());
+            movie.setRelease_date(movies.get(mMoviePosition).getRelease_date());
+            if (fragmentDataInterchange != null) {
+                fragmentDataInterchange.onItemSelected(movie);
+            }
+        }
 
+        for (int i = 0; i < movies.size(); i++) {
+            moviesList.add(movies.get(i));
+        }
 
-//        if (mtwoPanel & mMoviePosition < 0) {
-//            mMoviePosition = 0;
-//            movie = new Movie();
-//            movie.setId(movies.get(mMoviePosition).getId());
-//            movie.setTitle(movies.get(mMoviePosition).getTitle());
-//            movie.setVote_average(movies.get(mMoviePosition).getVote_average());
-//            movie.setPoster_path(movies.get(mMoviePosition).getPoster_path());
-//            movie.setOverview(movies.get(mMoviePosition).getOverview());
-//            movie.setRelease_date(movies.get(mMoviePosition).getRelease_date());
-//            if (fragmentDataInterchange != null) {
-//                fragmentDataInterchange.onItemSelected(movie);
-//            }
-//        }
-//
-//        for (int i = 0; i < movies.size(); i++) {
-//            moviesList.add(movies.get(i));
-//        }
-
-//        adapter.notifyDataSetChanged();
-//
-//        if (mMoviePosition != ListView.INVALID_POSITION) {
-//            gridView.smoothScrollToPosition(mMoviePosition);
-//        }
+        moviesGridRecycler.notifyDataSetChanged();
+        moviesRecycler.setAdapter(moviesGridRecycler);
+        if (mMoviePosition != moviesRecycler.NO_POSITION) {
+            gridLayoutManager.smoothScrollToPosition(moviesRecycler, null, mMoviePosition);
+        }
     }
 
     @Override
     public void onMovieClick(int itemPosition) {
+        mMoviePosition = itemPosition;
         movie = new Movie();
         movie.setId(moviesList.get(itemPosition).getId());
         movie.setTitle(moviesList.get(itemPosition).getTitle());
@@ -180,7 +174,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-
         return false;
     }
 

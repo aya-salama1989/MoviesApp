@@ -45,14 +45,13 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
     ImageView movieImgVue;
     @BindView(R.id.add_fav)
     Button btnAddToFavorite;
-    private String movieTitle, movieImg, releaseDate, movieRating, movieOverView;
-    private View v;
-    private Movie mMovie;
     @BindView(R.id.list_trailers)
     RecyclerView videosListView;
     @BindView(R.id.list_reviews)
     RecyclerView reviewsListView;
-
+    private String movieTitle, movieImg, releaseDate, movieRating, movieOverView;
+    private View v;
+    private Movie mMovie;
     private VideosListAdapter videosListAdapter;
     private Videos mVideos;
     private VideosDataFetcher videosDataFetcher;
@@ -88,12 +87,14 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
 
         switch (id) {
             case R.id.action_share:
-                String videoURL = getString(R.string.url_video) + mVideos.get(0).getKey();
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, videoURL);
-                sendIntent.setType("text/plain");
-                startActivity(sendIntent);
+                if (mVideos != null) {
+                    String videoURL = getString(R.string.url_video) + mVideos.get(0).getKey();
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, videoURL);
+                    sendIntent.setType("text/plain");
+                    startActivity(sendIntent);
+                }
                 break;
 
         }
@@ -130,7 +131,7 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
         releaseDateTxt.setText(getString(R.string.release_Date, releaseDate));
 
         // setting movie Rating
-        ratingTxt.setText(getString(R.string.rating,movieRating));
+        ratingTxt.setText(getString(R.string.rating, movieRating));
 
         // setting movie over View
         overviewTxt.setText(movieOverView);

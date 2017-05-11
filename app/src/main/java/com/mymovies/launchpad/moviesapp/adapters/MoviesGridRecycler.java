@@ -39,6 +39,8 @@ public class MoviesGridRecycler extends RecyclerView.Adapter<MoviesGridRecycler.
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.grid_item_movie, parent, false);
+//        int height = parent.getMeasuredHeight() / 4;
+//        view.setMinimumHeight(height);
         movieViewHolder = new MovieViewHolder(view);
         return movieViewHolder;
     }
@@ -76,8 +78,11 @@ public class MoviesGridRecycler extends RecyclerView.Adapter<MoviesGridRecycler.
         }
 
         public void setMoviePoster(String url) {
-            Picasso.with(context).load(context.getString(R.string.url_image) + url)
-                    .placeholder(R.drawable.reviews).error(R.drawable.reviews).into(movieViewHolder.moviePoster);
+            Picasso.with(context)
+                    .load(context.getString(R.string.url_image) + url)
+                    .placeholder(R.drawable.reviews)
+                    .error(R.drawable.reviews)
+                    .into(movieViewHolder.moviePoster);
         }
 
 

@@ -27,27 +27,21 @@ public class MoviesDataFetcher extends BaseDataFetcher {
         String URL = BaseURL
                 + queryType
                 + mContext.getResources().getString(R.string.api_key);
-
         Logging.log("MoviesDataFetcher: " + URL);
         JsonObjectRequest jsonArrObjReq = new JsonObjectRequest(URL, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Logging.log(response.toString());
+                            Logging.log(""+response.toString());
                             JSONArray jsonArray = response.getJSONArray("results");
                             movies = new MoviesList(jsonArray);
-
                             ((DataFetcherListener) mListener).onConnectionDone(movies);
-
                         } catch (JSONException ex) {
-                            ex.getMessage();
+                            Logging.log(ex.getMessage());
                         }
-
                     }
-
                 }, this.errorListener);
-
         retryPolicy(jsonArrObjReq);
         queue.add(jsonArrObjReq);
     }

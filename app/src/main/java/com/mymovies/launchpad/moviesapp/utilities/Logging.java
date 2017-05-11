@@ -9,7 +9,7 @@ public class Logging{
 
 
 	public static void log(String s){
-		Log.e("TAG", s);
+		Log.d("TAG", s);
 	}
 	
 	public static void Toast(Context context, String s){
