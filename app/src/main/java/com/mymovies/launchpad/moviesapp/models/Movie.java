@@ -99,6 +99,8 @@ public class Movie implements Parcelable {
 
     }
 
+
+
     public String getPoster_path() {
         return poster_path;
     }

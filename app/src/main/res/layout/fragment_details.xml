@@ -61,7 +61,7 @@
                 android:id="@+id/add_fav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/markFavorite"
+                android:text="@string/mark_favorite"
                 android:textAllCaps="false" />
 
         </LinearLayout>

@@ -1,7 +1,10 @@
 package com.mymovies.launchpad.moviesapp.fragments;
 
 import android.app.Fragment;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +23,7 @@ import com.mymovies.launchpad.moviesapp.adapters.ReviewsListAdapter;
 import com.mymovies.launchpad.moviesapp.adapters.VideosListAdapter;
 import com.mymovies.launchpad.moviesapp.backendControllers.ReviewsDataFetcher;
 import com.mymovies.launchpad.moviesapp.backendControllers.VideosDataFetcher;
+import com.mymovies.launchpad.moviesapp.database.MoviesContract;
 import com.mymovies.launchpad.moviesapp.models.Movie;
 import com.mymovies.launchpad.moviesapp.models.Reviews;
 import com.mymovies.launchpad.moviesapp.models.Videos;
@@ -29,10 +33,10 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.mymovies.launchpad.moviesapp.database.MoviesDBHelper.getDataBaseInstance;
 
-
-public class DetailsFragment extends Fragment implements View.OnClickListener, VideosDataFetcher.VideosDataFetcherListener, ReviewsDataFetcher.ReviewsFetcherListener {
+public class DetailsFragment extends Fragment implements View.OnClickListener,
+        VideosDataFetcher.VideosDataFetcherListener,
+        ReviewsDataFetcher.ReviewsFetcherListener {
     @BindView(R.id.movieTitle)
     TextView titleTxt;
     @BindView(R.id.releaseDate)
@@ -138,10 +142,14 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
 
         // Set and Custom Add to Favorite Button
         btnAddToFavorite.setOnClickListener(this);
-        if (getDataBaseInstance(getActivity()).findMovie(String.valueOf(mMovie.getId()))) {
-            btnAddToFavorite.setText(getString(R.string.marked_Favorite));
+        //1- TODO: get from content providers
+        Cursor cursor = getActivity().getContentResolver().query(MoviesContract.MovieEntry.MOVIES_CONTENT_URI, null,
+                MoviesContract.MovieEntry.MOVIE_ID + "=?"
+                , new String[]{String.valueOf(mMovie.getId())}, null);
+        if (cursor.getCount() != 0) {
+            btnAddToFavorite.setText(getString(R.string.mark_not_favorite));
         } else {
-            btnAddToFavorite.setText(getString(R.string.add_to_fav));
+            btnAddToFavorite.setText(getString(R.string.mark_favorite));
         }
 
         // Initiate and populate videos recyclerView
@@ -162,9 +170,35 @@ public class DetailsFragment extends Fragment implements View.OnClickListener, V
             case R.id.add_fav:
                 String imgPath = movieImg.substring(movieImg.lastIndexOf("/"), movieImg.length());
                 mMovie.setPoster_path(imgPath);
-                getDataBaseInstance(getActivity()).insertMovie(mMovie);
-                btnAddToFavorite.setText(getString(R.string.added_resources));
-                btnAddToFavorite.setOnClickListener(null);
+                if (btnAddToFavorite.getText().toString().equalsIgnoreCase(getString(R.string.mark_not_favorite))) {
+                    Uri uri = MoviesContract.MovieEntry.MOVIES_CONTENT_URI.buildUpon()
+                            .appendPath(String.valueOf(mMovie.getId())).build();
+                    Logging.log("My URI-1: " + uri);
+
+                    getActivity().getContentResolver()
+                            .delete(uri, null, null);
+                    if (uri != null) {
+                        Logging.log("My URI: " + uri);
+                    }
+
+                    btnAddToFavorite.setText(getString(R.string.mark_favorite));
+
+                } else if (btnAddToFavorite.getText().toString().equalsIgnoreCase(getString(R.string.mark_favorite))) {
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(MoviesContract.MovieEntry.MOVIE_ID, mMovie.getId());
+                    contentValues.put(MoviesContract.MovieEntry.MOVIE_TITLE, mMovie.getTitle());
+                    contentValues.put(MoviesContract.MovieEntry.MOVIE_POSTER, mMovie.getPoster_path());
+                    contentValues.put(MoviesContract.MovieEntry.MOVIE_RELEASE_DATE, mMovie.getRelease_date());
+                    Uri uri = getActivity().getContentResolver()
+                            .insert(MoviesContract.MovieEntry.MOVIES_CONTENT_URI, contentValues);
+                    Logging.log("My URI: " + uri);
+                    if (uri != null) {
+                        btnAddToFavorite.setText(getString(R.string.mark_not_favorite));
+                    }
+                } else {
+                    return;
+                }
+
                 break;
             default:
         }

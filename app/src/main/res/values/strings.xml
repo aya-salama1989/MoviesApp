@@ -43,4 +43,6 @@
     <string name="marked_Favorite">Marked Favorite</string>
     <string name="add_to_fav">Add to Favorite</string>
     <string name="added_resources">Added to favourite</string>
+    <string name="mark_not_favorite">Unfavorite</string>
+    <string name="mark_favorite">Mark Favorite</string>
 </resources>

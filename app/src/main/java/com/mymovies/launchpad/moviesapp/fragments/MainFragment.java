@@ -72,7 +72,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mMoviePosition != ListView.INVALID_POSITION) {
+        if (mMoviePosition != moviesRecycler.NO_POSITION) {
             outState.putInt(SELECTED_KEY, mMoviePosition);
         }
         super.onSaveInstanceState(outState);
@@ -137,10 +137,6 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
             if (fragmentDataInterchange != null) {
                 fragmentDataInterchange.onItemSelected(movie);
             }
-        }
-
-        for (int i = 0; i < movies.size(); i++) {
-            moviesList.add(movies.get(i));
         }
 
         moviesGridRecycler.notifyDataSetChanged();
