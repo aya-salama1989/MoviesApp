@@ -9,7 +9,6 @@
     android:orientation="horizontal"
     tools:context="com.mymovies.launchpad.moviesapp.activities.FavoritesActivity">
 
-
     <fragment
         android:id="@+id/fav_fragment_holder"
         android:name="com.mymovies.launchpad.moviesapp.fragments.FavoriteFragment"

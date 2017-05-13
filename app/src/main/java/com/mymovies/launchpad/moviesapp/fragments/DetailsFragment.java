@@ -90,6 +90,9 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,
         int id = item.getItemId();
 
         switch (id) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
             case R.id.action_share:
                 if (mVideos != null) {
                     String videoURL = getString(R.string.url_video) + mVideos.get(0).getKey();

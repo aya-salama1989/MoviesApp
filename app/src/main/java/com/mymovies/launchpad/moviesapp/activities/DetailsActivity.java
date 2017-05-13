@@ -3,6 +3,7 @@ package com.mymovies.launchpad.moviesapp.activities;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.fragments.DetailsFragment;
@@ -34,8 +35,12 @@ public class DetailsActivity extends AppCompatActivity {
         }
     }
 
+    // Newer, but Im not sure what API version it came in
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    // Older, still supported
+
 }

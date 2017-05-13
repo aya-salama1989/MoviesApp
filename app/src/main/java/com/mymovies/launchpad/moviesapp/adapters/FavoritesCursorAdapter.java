@@ -39,6 +39,7 @@ public class FavoritesCursorAdapter extends RecyclerView.Adapter<FavoritesCursor
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
+
         Movie movie = new Movie();
         // Indices for the _id, description, and priority columns
         int idIndex = mCursor.getColumnIndex(MoviesContract.MovieEntry.MOVIE_ID);

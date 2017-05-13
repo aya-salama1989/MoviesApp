@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.adapters.MoviesGridRecycler;
@@ -41,7 +40,7 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
     private View v;
     private Movie movie;
     private String searchQuery;
-    private int mMoviePosition;
+    private int mMoviePosition = moviesRecycler.NO_POSITION;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -126,17 +125,24 @@ public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetc
 
 
         if (mtwoPanel & mMoviePosition < 0) {
-            moviesRecycler.findViewHolderForAdapterPosition(0).itemView.performClick();
-            movie = new Movie();
-            movie.setId(movies.get(mMoviePosition).getId());
-            movie.setTitle(movies.get(mMoviePosition).getTitle());
-            movie.setVote_average(movies.get(mMoviePosition).getVote_average());
-            movie.setPoster_path(movies.get(mMoviePosition).getPoster_path());
-            movie.setOverview(movies.get(mMoviePosition).getOverview());
-            movie.setRelease_date(movies.get(mMoviePosition).getRelease_date());
-            if (fragmentDataInterchange != null) {
-                fragmentDataInterchange.onItemSelected(movie);
-            }
+//            moviesRecycler.findViewHolderForAdapterPosition(0).itemView.performClick();
+//            movie = new Movie();
+//            movie.setId(movies.get(mMoviePosition).getId());
+//            movie.setTitle(movies.get(mMoviePosition).getTitle());
+//            movie.setVote_average(movies.get(mMoviePosition).getVote_average());
+//            movie.setPoster_path(movies.get(mMoviePosition).getPoster_path());
+//            movie.setOverview(movies.get(mMoviePosition).getOverview());
+//            movie.setRelease_date(movies.get(mMoviePosition).getRelease_date());
+//            if (fragmentDataInterchange != null) {
+//                fragmentDataInterchange.onItemSelected(movie);
+//            }
+
+            moviesRecycler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    moviesRecycler.findViewHolderForAdapterPosition(0).itemView.performClick();
+                }
+            }, 400);
         }
 
         moviesGridRecycler.notifyDataSetChanged();
