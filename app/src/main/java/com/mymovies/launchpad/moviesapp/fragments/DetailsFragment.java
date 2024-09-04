@@ -6,8 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +16,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.adapters.ReviewsListAdapter;
@@ -30,29 +32,11 @@ import com.mymovies.launchpad.moviesapp.models.Videos;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 import com.squareup.picasso.Picasso;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-
 public class DetailsFragment extends Fragment implements View.OnClickListener,
         VideosDataFetcher.VideosDataFetcherListener,
         ReviewsDataFetcher.ReviewsFetcherListener {
-    @BindView(R.id.movieTitle)
-    TextView titleTxt;
-    @BindView(R.id.releaseDate)
-    TextView releaseDateTxt;
-    @BindView(R.id.movieRating)
-    TextView ratingTxt;
-    @BindView(R.id.movieOverView)
-    TextView overviewTxt;
-    @BindView(R.id.movieImg)
-    ImageView movieImgVue;
-    @BindView(R.id.add_fav)
+
     Button btnAddToFavorite;
-    @BindView(R.id.list_trailers)
-    RecyclerView videosListView;
-    @BindView(R.id.list_reviews)
-    RecyclerView reviewsListView;
     private String movieTitle, movieImg, releaseDate, movieRating, movieOverView;
     private View v;
     private Movie mMovie;
@@ -67,7 +51,6 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_details, container, false);
-        ButterKnife.bind(this, v);
         setHasOptionsMenu(true);
 
         if (getArguments() != null) {
@@ -127,6 +110,14 @@ public class DetailsFragment extends Fragment implements View.OnClickListener,
     }
 
     private void initViews() {
+        TextView titleTxt = v.findViewById(R.id.movieTitle);
+        TextView releaseDateTxt = v.findViewById(R.id.releaseDate);
+        TextView ratingTxt = v.findViewById(R.id.movieRating);
+        TextView overviewTxt = v.findViewById(R.id.movieOverView);
+        ImageView movieImgVue = v.findViewById(R.id.movieImg);
+         btnAddToFavorite = v.findViewById(R.id.add_fav);
+        RecyclerView videosListView = v.findViewById(R.id.list_trailers);
+        RecyclerView reviewsListView = v.findViewById(R.id.list_reviews);
         // setting movie poster
         Picasso.with(getActivity()).load(movieImg).into(movieImgVue);
 

@@ -4,9 +4,6 @@ import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.preference.Preference;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +16,10 @@ import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
 import static com.mymovies.launchpad.moviesapp.activities.MainActivity.mtwoPanel;
+
+import androidx.preference.Preference;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class MainFragment extends Fragment implements MoviesDataFetcher.DataFetcherListener,

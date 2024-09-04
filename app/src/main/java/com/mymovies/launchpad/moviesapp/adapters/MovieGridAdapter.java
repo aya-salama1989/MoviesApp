@@ -9,12 +9,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.mymovies.launchpad.moviesapp.R;
-import com.mymovies.launchpad.moviesapp.models.Movie;
 import com.mymovies.launchpad.moviesapp.models.MoviesList;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 
 /**
  * Created by hp on 10/8/2016.

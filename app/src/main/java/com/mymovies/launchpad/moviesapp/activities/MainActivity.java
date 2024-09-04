@@ -3,17 +3,18 @@ package com.mymovies.launchpad.moviesapp.activities;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.fragments.DetailsFragment;
 import com.mymovies.launchpad.moviesapp.fragments.MainFragment;
 import com.mymovies.launchpad.moviesapp.models.Movie;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
+import com.mymovies.launchpad.moviesapp.R;
 
 import static com.mymovies.launchpad.moviesapp.utilities.InternetConnectivity.checkOnlineState;
+
 
 public class MainActivity extends AppCompatActivity implements MainFragment.FragmentDataInterchange {
 
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Frag
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onItemSelected(Movie movie) {
         Bundle bundle = new Bundle();
@@ -94,7 +94,5 @@ public class MainActivity extends AppCompatActivity implements MainFragment.Frag
             intent.putExtras(bundle);
             startActivity(intent);
         }
-
-
     }
 }

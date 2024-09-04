@@ -3,7 +3,6 @@ package com.mymovies.launchpad.moviesapp.backendControllers;
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.mymovies.launchpad.moviesapp.R;
@@ -11,7 +10,6 @@ import com.mymovies.launchpad.moviesapp.models.Reviews;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by Dell on 05/11/2016.
@@ -34,17 +32,14 @@ public class ReviewsDataFetcher extends BaseDataFetcher {
 
         Logging.log("ReviewsDataFetcher: " + URL);
         JsonObjectRequest jsonArrObjReq = new JsonObjectRequest(URL, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            reviews = new Reviews(response.getJSONArray("results"));
-                            Logging.log("ReviewsDataFetcher: " + reviews.toString());
+                response -> {
+                    try {
+                        reviews = new Reviews(response.getJSONArray("results"));
+                        Logging.log("ReviewsDataFetcher: " + reviews);
 
-                            ((ReviewsFetcherListener) mListener).onConnectionDone(reviews);
-                        } catch (JSONException ex) {
-                            Logging.log(ex.getMessage());
-                        }
+                        ((ReviewsFetcherListener) mListener).onConnectionDone(reviews);
+                    } catch (JSONException ex) {
+                        Logging.log(ex.getMessage());
                     }
                 }, this.errorListener);
 

@@ -9,12 +9,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
 import static com.mymovies.launchpad.moviesapp.database.MoviesContract.MovieEntry.MOVIE_ID;
 import static com.mymovies.launchpad.moviesapp.database.MoviesContract.MovieEntry.TABLE_MOVIES;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Dell on 19/11/2016.

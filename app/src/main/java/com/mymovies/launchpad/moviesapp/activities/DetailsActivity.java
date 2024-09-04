@@ -1,13 +1,12 @@
 package com.mymovies.launchpad.moviesapp.activities;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.mymovies.launchpad.moviesapp.R;
 import com.mymovies.launchpad.moviesapp.fragments.DetailsFragment;
-import com.mymovies.launchpad.moviesapp.models.Movie;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -31,7 +30,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
+//            actionBar.setDefaultDisplayHomeAsUpEnabled(true);
         }
     }
 

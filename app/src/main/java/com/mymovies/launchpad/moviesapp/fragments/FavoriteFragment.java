@@ -3,8 +3,7 @@ package com.mymovies.launchpad.moviesapp.fragments;
 import android.app.Fragment;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,9 @@ import com.mymovies.launchpad.moviesapp.models.Movie;
 import com.mymovies.launchpad.moviesapp.utilities.Logging;
 
 import static com.mymovies.launchpad.moviesapp.activities.MainActivity.mtwoPanel;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class FavoriteFragment extends Fragment implements FavoritesCursorAdapter.OnFavoriteClickListener {
@@ -42,8 +44,6 @@ public class FavoriteFragment extends Fragment implements FavoritesCursorAdapter
             mMoviePosition = savedInstanceState.getInt("itemPosition");
         }
         initViews();
-
-
         return v;
     }
 

@@ -5,12 +5,12 @@
 
     <!-- APIs URLs -->
 
-    <string name="url_main">http://api.themoviedb.org/3/movie/</string>
+    <string name="url_main">https://api.themoviedb.org/3/movie/</string>
     <string name="api_key">api_key=589274dc0728536d219800f8895e32f3</string>
-    <string name="url_image">http://image.tmdb.org/t/p/w185/</string>
+    <string name="url_image">https://image.tmdb.org/t/p/w185/</string>
 
     <string name="url_videos">/videos?</string>
-    <string name="url_video">http://youtu.be/</string>
+    <string name="url_video">https://youtu.be/</string>
 
     <string name="url_reviews">/reviews?</string>
 
